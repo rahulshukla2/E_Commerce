@@ -7,16 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
-public class ProductListAdapterSeller extends BaseAdapter {
+public class CartProductListAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
     private ArrayList<Product> productsList;
+    private String frag;
+    DatabaseHelper db;
     @Override
     public int getCount() {
         return productsList.size();
@@ -32,15 +37,17 @@ public class ProductListAdapterSeller extends BaseAdapter {
         return position;
     }
 
-    public ProductListAdapterSeller(Context context, int layout, ArrayList<Product> productsList) {
+    public CartProductListAdapter(Context context, int layout, ArrayList<Product> productsList, String frag) {
         this.context = context;
         this.layout = layout;
         this.productsList = productsList;
+        this.frag=frag;
     }
 
     private class ViewHolder{
         ImageView imageView;
-        TextView txtTitle, txtPrice, txtQuantity;
+        TextView txtTitle, txtPrice;
+        Button btn_remove;
 
     }
 
@@ -50,6 +57,7 @@ public class ProductListAdapterSeller extends BaseAdapter {
         View row = convertView;
 
         ViewHolder holder = new ViewHolder();
+        Product product = productsList.get(position);
 
         SessionManagement sessionManagement = new SessionManagement(context);
         String type1 = sessionManagement.getType();
@@ -58,26 +66,42 @@ public class ProductListAdapterSeller extends BaseAdapter {
 
             row = inflater.inflate(layout, null);
 
-            holder.txtTitle = row.findViewById(R.id.txt_user_id1);
-            holder.txtPrice = row.findViewById(R.id.txtView1);
-            holder.txtQuantity = row.findViewById(R.id.txt_price1);
-           // holder.txtTitle = row.findViewById(R.id.txt_title);
-            holder.imageView = row.findViewById(R.id.imageView3);
+            holder.txtTitle = row.findViewById(R.id.txt_item_title);
+            holder.txtPrice = row.findViewById(R.id.txt_item_price);
+            holder.btn_remove = row.findViewById(R.id.btn_remove_from_cart2);
+            holder.imageView = row.findViewById(R.id.productImage1);
+
+            holder.btn_remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    db = new DatabaseHelper(context);
+                    boolean status = db.deleteFromCart(Integer.toString(product.getId()),Integer.toString(sessionManagement.getSession()));
+                    if(status){
+                        Snackbar.make(v,"Product has been removed successfully from the cart", Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                    }
+                    else{
+
+                        Snackbar.make(v,"Product could not be removed from the cart", Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                    }
+
+
+                }
+            });
+
+            if(frag.equals("order")){
+                holder.btn_remove.setVisibility(View.INVISIBLE);
+            }
             row.setTag(holder);
 
         }
         else {
             holder = (ViewHolder) row.getTag();
         }
-        Product product = productsList.get(position);
+
         holder.txtTitle.setText(product.getTitle());
         holder.txtPrice.setText(context.getResources().getString(R.string.Rs)+product.getPrice());
-        if(type1.equals("Customer")){
-            holder.txtQuantity.setVisibility(View.INVISIBLE);
-        }
-        else {
-            holder.txtQuantity.setText(product.getQuantity());
-        }
+
 
          byte [] productImage = product.getImage();
          Bitmap bitmap = BitmapFactory.decodeByteArray(productImage, 0,productImage.length);

@@ -19,13 +19,13 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.e_comm.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:name="com.example.e_comm.ui.mycart.MyCartFragment"
+        android:label="My Cart"
+        tools:layout="@layout/fragment_my_cart" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.e_comm.ui.slideshow.SlideshowFragment"
+        android:name="com.example.e_comm.ui.myorders.MyOrdersFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_my_orders" />
 </navigation>

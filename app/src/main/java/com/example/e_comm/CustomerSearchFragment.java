@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +20,7 @@ import com.example.e_comm.ui.home.HomeViewModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CustomerHomeFragment extends Fragment {
+public class CustomerSearchFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
 
@@ -46,7 +47,7 @@ public class CustomerHomeFragment extends Fragment {
             container.removeAllViews();
         }
 
-        View root = inflater.inflate(R.layout.fragment_customer_home, container, false);
+        View root = inflater.inflate(R.layout.fragment_customer_search, container, false);
         //final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -64,7 +65,7 @@ public class CustomerHomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        gridView = view.findViewById(R.id.product_grid1);
+        gridView = view.findViewById(R.id.search_product_grid1);
         list = new ArrayList<>();
         adapter = new ProductListAdapterSeller(getActivity(), R.layout.product_items, list);
         gridView.setAdapter(adapter);
@@ -90,23 +91,31 @@ public class CustomerHomeFragment extends Fragment {
 
 
 
-        Cursor cursor = db.getProduct("SELECT * FROM PRODUCT");
+
+        Cursor cursor = db.getProductBySearch("SELECT * FROM PRODUCT WHERE TITLE = ?  OR CATEGORY = ?", getArguments().getString("query"));
         list.clear();
-        while(cursor.moveToNext()){
-            int id = cursor.getInt(0);
-            String title = cursor.getString(1);
-            String price = cursor.getString(2);
-            String category = cursor.getString(3);
-            String quantity = cursor.getString(4);
-            String desc = cursor.getString(5);
-            byte[] image = cursor.getBlob(6);
-
-            list.add(new Product(id,title,price,category,quantity,desc,image));
-
-            adapter.notifyDataSetChanged();
+        if(cursor.getCount()>0) {
 
 
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                String price = cursor.getString(2);
+                String category = cursor.getString(3);
+                String quantity = cursor.getString(4);
+                String desc = cursor.getString(5);
+                byte[] image = cursor.getBlob(6);
 
+                list.add(new Product(id, title, price, category, quantity, desc, image));
+
+                adapter.notifyDataSetChanged();
+
+
+            }
+        }else {
+
+            Toast.makeText(getActivity(),"Sorry, No result found!!", Toast.LENGTH_LONG).show();
+            getParentFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new CustomerHomeFragment()).addToBackStack("Details").commit();
         }
     }
 }

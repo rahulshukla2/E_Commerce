@@ -4,19 +4,15 @@ package com.example.e_comm;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
-import android.widget.Gallery;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
 
-import com.example.e_comm.ui.gallery.GalleryFragment;
+import com.example.e_comm.ui.mycart.MyCartFragment;
 import com.example.e_comm.ui.home.HomeFragment;
-import com.example.e_comm.ui.slideshow.SlideshowFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.e_comm.ui.myorders.MyOrdersFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -36,7 +32,7 @@ public class SellerHomeActivity extends AppCompatActivity  {
 
     private AppBarConfiguration mAppBarConfiguration;
     public static final String TAG = "SellerHomeActivity";
-
+    SessionManagement sessionManagement;
 
 
   /*  public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -99,6 +95,8 @@ public class SellerHomeActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_seller_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        sessionManagement = new SessionManagement(getApplicationContext());
        /* FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,10 +105,16 @@ public class SellerHomeActivity extends AppCompatActivity  {
                         .setAction("Action", null).show();
             }
         });*/
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_seller);
+        NavigationView navigationView = findViewById(R.id.nav_view_seller);
+        View headerView = navigationView.getHeaderView(0);
+        TextView name = headerView.findViewById(R.id.seller_name);
+        TextView mobile_no = headerView.findViewById(R.id.mobile_no_seller);
+        String n = name.getText().toString().trim() +" " + sessionManagement.getName();
+        Log.d(TAG,n);
+        name.setText(n);
+        mobile_no.setText(sessionManagement.getMOBILENO());
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,R.id.nav_add_product, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_logout)
                 .setDrawerLayout(drawer)
@@ -142,15 +146,15 @@ public class SellerHomeActivity extends AppCompatActivity  {
                 else if(id==R.id.nav_gallery)
                 {
                     getSupportActionBar().setTitle("Gallery");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,new GalleryFragment()).commit();
-                    replaceFragment(new GalleryFragment());
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,new MyCartFragment()).commit();
+                    replaceFragment(new MyCartFragment());
                     Log.d(TAG,"printfd");
                 }
                 else if(id==R.id.nav_slideshow)
                 {
                     getSupportActionBar().setTitle("Slideshow");
-                   // getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,new SlideshowFragment()).commit();
-                    replaceFragment(new SlideshowFragment());
+                   // getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,new MyOrdersFragment()).commit();
+                    replaceFragment(new MyOrdersFragment());
                 }
                 else if(id==R.id.nav_logout)
                 {

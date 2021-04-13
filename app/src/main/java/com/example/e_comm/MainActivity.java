@@ -2,6 +2,7 @@ package com.example.e_comm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,9 +28,42 @@ public class MainActivity extends AppCompatActivity {
 
     public void create_session(String mobile_no,String type1){
 
-        User user = new User(5,mobile_no,type1);
-        SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
-        sessionManagement.saveSession(user);
+
+        if(type1.equals("admin")){
+
+            User user = new User(5, mobile_no, type1, "admin");
+            SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
+            sessionManagement.saveSession(user);
+
+        }
+        if(type1.equals("seller")) {
+            Cursor cursor = db.getSeller("SELECT * FROM SELLER WHERE MOBILE_NO = ?", mobile_no);
+
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    User user = new User(cursor.getInt(0), mobile_no, type1, cursor.getString(1));
+                    SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
+                    sessionManagement.saveSession(user);
+
+
+                }
+            }
+        }
+        else if(type1.equals("Customer")){
+
+            Cursor cursor = db.getCustomer("SELECT * FROM CUSTOMER WHERE MOBILE_NO = ?", mobile_no);
+
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    User user = new User(cursor.getInt(0), mobile_no, type1, cursor.getString(1));
+                    SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
+                    sessionManagement.saveSession(user);
+
+
+                }
+            }
+        }
+
 
       /*  if(type.equals("customer")){
 
@@ -105,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
                 if(mobile_no.isEmpty() || password.isEmpty())
                 {
                     //Toast.makeText(MainActivity.this,"Please enter the credentials",Toast.LENGTH_LONG).show();
@@ -119,6 +154,19 @@ public class MainActivity extends AppCompatActivity {
                 else {
 
                     if (type.equals("Customer")) {
+
+                        if(mobile_no.equals("1234567890") || password.equals("admin")){
+                            create_session(mobile_no,"admin");
+                            Snackbar.make(v,"Successfully logged in", Snackbar.LENGTH_LONG).setAction("Action",null).show();
+
+                            Intent intent1 = new Intent(getApplicationContext(), AdminHomeActivity.class);
+                            intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent1);
+                        }
+
+
+
+
                         boolean res = db.checkCustomer(mobile_no);
 
                         if (res) {
@@ -127,13 +175,20 @@ public class MainActivity extends AppCompatActivity {
                             boolean res1 = db.verifyCustomerPassword(mobile_no, password);
                             if (res1) {
 
-                                create_session(mobile_no,type);
-                                //Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
-                                Snackbar.make(v,"Successfully logged in", Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                                if(db.isBlockedCustomer(mobile_no)){
+                                    Snackbar.make(v,"You are blocked by admin", Snackbar.LENGTH_LONG).setAction("Action",null).show();
 
-                                Intent intent1 = new Intent(getApplicationContext(), CustomHomeActivity.class);
-                                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent1);
+                                }
+                                else {
+                                    create_session(mobile_no, type);
+                                    //Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(v, "Successfully logged in", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                                    Intent intent1 = new Intent(getApplicationContext(), CustomHomeActivity.class);
+                                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent1);
+                                }
+
                             } else {
                                // Toast.makeText(getApplicationContext(), "Invalid phone no or password", Toast.LENGTH_SHORT).show();
                                 Snackbar.make(v,"Invalid phone no or password", Snackbar.LENGTH_LONG).setAction("Action",null).show();
@@ -156,12 +211,19 @@ public class MainActivity extends AppCompatActivity {
                             boolean res1 = db.verifySellerPassword(mobile_no, password);
                             if (res1) {
 
-                                create_session(mobile_no,type);
-                                //Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
-                                Snackbar.make(v,"Successfully logged in", Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                                if(db.isBlockedSeller(mobile_no)){
+                                    Snackbar.make(v,"You are blocked by admin", Snackbar.LENGTH_LONG).setAction("Action",null).show();
 
-                                Intent intent1 = new Intent(getApplicationContext(), SellerHomeActivity.class);
-                                startActivity(intent1);
+                                }
+                                else {
+
+                                    create_session(mobile_no, type);
+                                    //Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(v, "Successfully logged in", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                                    Intent intent1 = new Intent(getApplicationContext(), SellerHomeActivity.class);
+                                    startActivity(intent1);
+                                }
                             } else {
                                 //Toast.makeText(getApplicationContext(), "Invalid phone no or password", Toast.LENGTH_SHORT).show();
                                 Snackbar.make(v,"Invalid phone no or password", Snackbar.LENGTH_LONG).setAction("Action",null).show();

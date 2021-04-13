@@ -5,13 +5,13 @@
     android:id="@+id/btn_logout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CustomerHomeFragment">
+    tools:context=".ui.mycart.MyCartFragment">
 
 
     <GridView
-        android:id="@+id/product_grid1"
+        android:id="@+id/product_grid_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:numColumns="auto_fit" />
+         />
 </RelativeLayout>

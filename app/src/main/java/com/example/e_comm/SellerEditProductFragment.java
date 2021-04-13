@@ -40,6 +40,7 @@ public class SellerEditProductFragment extends Fragment {
     final int REQUEST_CODE_GALLERY = 999;
     private static final int SELECT_PHOTO = 100;
     public static final String TAG="SellerHomeAct";
+    SessionManagement sessionManagement;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class SellerEditProductFragment extends Fragment {
         img = view.findViewById(R.id.imageView2);
         img.setImageResource(R.drawable.ic_baseline_mood_24);
 
+        sessionManagement = new SessionManagement(getActivity());
 
         Product product = (Product)getArguments().getSerializable("product1");
         Bitmap bitmap = BitmapFactory.decodeByteArray(product.getImage(),0,product.getImage().length);
@@ -122,7 +124,8 @@ public class SellerEditProductFragment extends Fragment {
                                 txt_category.getText().toString().trim(),
                                 txt_quantity.getText().toString().trim(),
                                 txt_desc.getText().toString().trim(),
-                                imageViewToByte(img)
+                                imageViewToByte(img),
+                               sessionManagement.getSession()
                         );
                        if(status==false)
                        {

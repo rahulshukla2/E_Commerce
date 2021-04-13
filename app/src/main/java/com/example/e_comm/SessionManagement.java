@@ -11,6 +11,10 @@ public class SessionManagement {
     public final String SESSION_KEY = "session_key";
     public final String NAME = "name";
     public final String TYPE = "user_type";
+    public final String MOBILENO = "mobile_no";
+    public final String ID = "user_id";
+
+
 
     public SessionManagement(Context context)
     {
@@ -21,15 +25,28 @@ public class SessionManagement {
 
     public void saveSession(User user){
             int id = user.getId();
-            String  name = user.mobile_no;
-            String type = user.type;
+            String  mobile_no = user.getMobile_no();
+            String type = user.getType();
+            String name= user.getName();
         //editor = sharedPreferences.edit();
             editor.putInt(SESSION_KEY,id).commit();
-            editor.putString(NAME,name).commit();
+            editor.putString(MOBILENO,mobile_no).commit();
             editor.putString(TYPE,type).commit();
+            editor.putString(NAME,name).commit();
 
 
 
+    }
+
+    public String getName(){
+
+        return sharedPreferences.getString(NAME,"");
+    }
+
+
+    public String getMOBILENO(){
+
+        return sharedPreferences.getString(MOBILENO,"");
     }
 
     public String getType(){

@@ -33,7 +33,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminHomeActivity" />
+        <activity android:name=".AdminHomeActivity"
+            android:label="AdminHomeActivity"
+            android:theme="@style/Theme.E_comm.NoActionBar" >
+        </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".OTPActivity" />

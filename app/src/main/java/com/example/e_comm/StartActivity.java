@@ -48,6 +48,16 @@ public class StartActivity extends AppCompatActivity {
             startActivity(intent1);
 
         }
+        else if(loggedInOrNot!=-1 && type1.equals("admin")){
+
+            Log.d(TAG,"came here inside of if else seller");
+            // Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+            Intent intent1 = new Intent(getApplicationContext(), AdminHomeActivity.class);
+            startActivity(intent1);
+
+        }
+
+
 
     }
     @Override

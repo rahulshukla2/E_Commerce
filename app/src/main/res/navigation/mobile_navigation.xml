@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_customer_home">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.e_comm.ui.home.HomeFragment"
+        android:id="@+id/nav_customer_home"
+        android:name="com.example.e_comm.CustomerHomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_customer_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.e_comm.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_my_cart"
+        android:name="com.example.e_comm.ui.mycart.MyCartFragment"
+        android:label="My Cart"
+        tools:layout="@layout/fragment_my_cart" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.e_comm.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_my_orders"
+        android:name="com.example.e_comm.ui.myorders.MyOrdersFragment"
+        android:label="My Orders"
+        tools:layout="@layout/fragment_my_orders" />
 </navigation>

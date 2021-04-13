@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_view_customer_frag">
+
+    <fragment
+        android:id="@+id/nav_view_customer_frag"
+        android:name="com.example.e_comm.ViewCustomerFragment"
+        android:label="View Customer"
+        tools:layout="@layout/fragment_view_customer" />
+
+    <fragment
+        android:id="@+id/nav_view_seller_frag"
+        android:name="com.example.e_comm.ViewSellerFragment"
+        android:label="View Seller"
+        tools:layout="@layout/fragment_view_seller" />
+
+
+</navigation>

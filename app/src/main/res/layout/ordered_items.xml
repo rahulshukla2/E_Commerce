@@ -5,43 +5,41 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="191dp"
-        android:layout_height="269dp">
+        android:layout_width="match_parent"
+        android:layout_height="219dp">
 
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:id="@+id/productImage1"
+            android:layout_width="144dp"
+            android:layout_height="137dp"
 
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
 
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.061"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_mood_24" />
 
         <TextView
-            android:id="@+id/txtView1"
+            android:id="@+id/txt_user_name1"
             android:layout_width="144dp"
             android:layout_height="23dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.173"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/txt_user_id1"
             app:layout_constraintTop_toBottomOf="@+id/txt_user_id1" />
 
         <TextView
@@ -51,54 +49,27 @@
             android:layout_alignBottom="@+id/imageView3"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.169"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-        <TextView
-            android:id="@+id/txt_price1"
-            android:layout_width="144dp"
-            android:layout_height="23dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.172"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtView1" />
+            app:layout_constraintStart_toEndOf="@+id/productImage1"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            android:id="@+id/divider6"
+            android:id="@+id/divider4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="3dp"
             android:layout_marginBottom="4dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_price1" />
-
-        <View
-            android:id="@+id/divider7"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="3dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider6"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/productImage1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

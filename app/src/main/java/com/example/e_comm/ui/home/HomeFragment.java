@@ -1,6 +1,5 @@
 package com.example.e_comm.ui.home;
 
-import android.app.ActionBar;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +18,8 @@ import com.example.e_comm.DatabaseHelper;
 import com.example.e_comm.Product;
 import com.example.e_comm.ProductListAdapterSeller;
 import com.example.e_comm.R;
-import com.example.e_comm.ViewProductFragemetSeller;
-import com.example.e_comm.ui.slideshow.SlideshowFragment;
+import com.example.e_comm.SessionManagement;
+import com.example.e_comm.ViewProductFragmentSeller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +33,7 @@ public class HomeFragment extends Fragment {
     ArrayList<Product> list;
     ProductListAdapterSeller adapter = null;
     DatabaseHelper db;
+    SessionManagement sessionManagement;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +75,7 @@ public class HomeFragment extends Fragment {
         adapter = new ProductListAdapterSeller(getActivity(), R.layout.product_items, list);
         gridView.setAdapter(adapter);
 
+        sessionManagement = new SessionManagement(getActivity());
 
         //get data from sqlite
 
@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-                ViewProductFragemetSeller obj = new ViewProductFragemetSeller();
+                ViewProductFragmentSeller obj = new ViewProductFragmentSeller();
                 Bundle args = new Bundle();
                 args.putSerializable("product",(Serializable) list.get(position));
                 obj.setArguments(args);
@@ -97,7 +97,10 @@ public class HomeFragment extends Fragment {
 
 
 
-        Cursor cursor = db.getProduct("SELECT * FROM PRODUCT");
+        //Cursor cursor = db.getProduct("SELECT * FROM PRODUCT");
+        Cursor cursor = db.getProductBySeller("SELECT * FROM PRODUCT WHERE SELLERID = ?",Integer.toString(sessionManagement.getSession()));
+
+
         list.clear();
         while(cursor.moveToNext()){
             int id = cursor.getInt(0);

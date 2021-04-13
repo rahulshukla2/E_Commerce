@@ -5,11 +5,15 @@ public class User {
     int id;
     String mobile_no;
     String type;
+    String name;
 
-    public User(int id, String mobile_no, String type) {
+
+
+    public User(int id, String mobile_no, String type, String name) {
         this.id = id;
         this.mobile_no = mobile_no;
         this.type = type;
+        this.name = name;
     }
 
     public int getId() {
@@ -34,5 +38,13 @@ public class User {
 
     public void setType(String type) {
         this.type =type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
